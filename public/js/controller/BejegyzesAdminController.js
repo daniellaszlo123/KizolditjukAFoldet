@@ -1,17 +1,21 @@
 import FetchClass from "../model/FetchClass.js"
-import BejegyzesekPublicView from "../view/BejegyzesekPublicView.js"
+import BejegyzesekAdminView from "../view/BejegyzesekAdminView.js"
 
-class BejegyzesController{
+class BejegyzesAdminController{
     #token
     constructor(){
         this.#token=document.querySelector('meta[name="csrf-token"]').getAttribute("content"); 
         const f = new FetchClass(this.#token);
         f.adatLeker('/api/bejegyzesek', this.adatokBetolt)
+
+        document.querySelector(window).on("torol", (event)=>{
+            f.adatTorol("/api/torol", event.detail.id)
+        })
     }
 
     adatokBetolt(tomb){
         let szuloelem=document.querySelector("article")
-        new BejegyzesekPublicView(szuloelem, tomb)
+        new BejegyzesekAdminView(szuloelem, tomb)
     }
 }
-export default BejegyzesController
+export default BejegyzesAdminController

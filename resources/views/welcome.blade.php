@@ -36,8 +36,6 @@
                 </div>
             @endif
 
-            <article></article>
         </div>
-        <script src="main.js" type="module"></script>
     </body>
 </html>

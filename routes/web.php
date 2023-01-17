@@ -24,17 +24,22 @@ Route::get('/', function () {
 //admin
 Route::middleware( ['admin'])->group(function () {
     Route::apiResource('/users', UserController::class);
+    Route::delete('/api/torol/{id}', [BejegyzesController::class, 'destroy']);
 });
 
 //alap felhaszn.
 Route::middleware( ['auth.basic'])->group(function () {
     Route::apiResource('/users', UserController::class);
-    Route::get('/api/bejegyzesek', [BejegyzesController::class, 'index']);
+    Route::get('/api/bejegyzesek', [BejegyzesController::class, 'bejegyzesHosszuNevvel']);
     Route::get('/api/bejegyzesek/{osztaly_id}', [BejegyzesController::class, 'show']);
     Route::post('/api/bejegyzes', [BejegyzesController::class, 'store']);
 });
 
 
+Route::get('/osszesBejegyzes', function()
+{
+    return view('bejegyzesek');
+})->middleware(['auth'])->name('bejegyzesek');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

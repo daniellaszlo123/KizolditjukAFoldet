@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bejegyzesek;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BejegyzesController extends Controller
 {
@@ -46,5 +47,15 @@ class BejegyzesController extends Controller
         $bejegyzes->osztaly_id = $request->osztaly_id;
         $bejegyzes->allapot = $request->allapot;
         $bejegyzes->save();
+    }
+
+    public function bejegyzesHosszuNevvel()
+    {
+        $bejegyzesek=DB::select(DB::raw("
+            select b.id, tevekenyseg_nev, osztaly_id, allapot
+            from bejegyzeseks b, tevekenysegs t
+            where b.tevekenyseg_id=t.tevekenyseg_id
+        "));
+        return $bejegyzesek;
     }
 }
